@@ -1,0 +1,36 @@
+body {
+    background-color: rgb(242,242,242);
+    padding: 20px;
+}
+header {
+    display: flex;
+    padding-bottom: 0;
+}
+
+#logoContainer {
+    width: 15%;
+}
+#navBar  {
+    width: 70%;
+    display: flex;
+}
+#authenticationControls {
+    text-align: right;
+    width: 15%;
+    display:inline-block;
+}
+.leftNav {
+    text-align: left;
+    width: 40%;
+    display:inline-block;
+}
+.centreNav {
+    text-align: center;
+    width: 20%;
+    display:inline-block;
+}
+.rightNav {
+    text-align: right;
+    width: 40%;
+    display:inline-block;
+}
