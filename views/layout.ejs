@@ -12,20 +12,18 @@
 </head>
 <body>
     <header>
-        <%currentUser=false
-        alerts={}%>
         <div id="logoContainer">
             <p><b>LOGO</b></p>
         </div>
 
         <div id="navBar">
             <nav class="leftNav">
-                <a href="#"><-- Return to Search</a>
+                <a href="search"><-- Return to Search</a>
                 <%if (currentUser) {%>
                     | <a href="#">Secert Nav 1</a>
                 <%}%> |
 
-                <a href="#">New Search</a> 
+                <a href="search">New Search</a> 
                 <%if (currentUser) {%>
                     | <a href="#">Secert Nav 2</a>
                 <%}%>
@@ -36,41 +34,42 @@
             <nav class="rightNav">
                 <%if (currentUser) {%>
                     <p>Hello <%=currentUser.userName%> |
-                    <a href="#">Profile</a></p>
+                    <a href="profile?id=<%=currentUser.id%>">Profile</a></p>
                 <%}%>
             </nav>
         </div> 
         <div id="authenticationControls">
             <nav class=>
                 <%if (currentUser) {%>
-                    <a href="#">Logout</a></p>
+                    <a href="logout">Logout</a></p>
                 <%} else {%>
-                    <a href="auth/signup">Create an Account</a> |
-                    <a href="#">Sign In</a>
+                    <a href="signup">Create an Account</a> |
+                    <a href="signin">Sign In</a>
                 </p>
                 <%}%>
             </nav>
         </div> 
     </header>
     <hr>
-    <% if(alerts.validationErrors) {%>
-        <% alerts.validationErrors.forEach(msg=>{%>
-            <div class="alert alert-danger">
-                <%=msg.msg%>
-            </div>
-        <%})%>
-    <%}%>
-    <% if(alerts.success) {%>
-        <% alerts.success.forEach(msg=>{%>
-            <div class="alert alert-success"><%=msg%></div>
-        <%})%>
-    <%}%>
-    <% if(alerts.error) {%>
-        <% alerts.error.forEach(msg=>{%>
-            <div class="alert alert-danger"><%=msg%></div>
-        <%})%>
-    <%}%>
-    <br>
+    <div id="alertmessages">
+        <% if(alerts.validationErrors) {%>
+            <% alerts.validationErrors.forEach(msg=>{%>
+                <div class="alert alert-danger">
+                    <%=msg.msg%>
+                </div>
+            <%})%>
+        <%}%>
+        <% if(alerts.success) {%>
+            <% alerts.success.forEach(msg=>{%>
+                <div class="alert alert-success"><%=msg%></div>
+            <%})%>
+        <%}%>
+        <% if(alerts.error) {%>
+            <% alerts.error.forEach(msg=>{%>
+                <div class="alert alert-danger"><%=msg%></div>
+            <%})%>
+        <%}%>
+    </div>
     <%- body %>
     <br><br>
     <hr>

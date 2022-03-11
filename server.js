@@ -1,12 +1,13 @@
 //Initialise Express App
 const express = require("express");
 const mongoose = require("mongoose");
-// const flash = require("connect-flash");
+const flash = require("connect-flash");
 //configure ENV into process.env
 require("dotenv").config();
 
 const PORT = process.env.PORT;
 const app = express();
+app.use(express.urlencoded({extended:true}));
 
 //look for static files here (CSS, JS, Images, Video, Audio)
 app.use(express.static("public"));
@@ -15,28 +16,28 @@ app.use(express.static("public"));
 const expressLayouts = require("express-ejs-layouts");
 app.use(expressLayouts);
 
-//initialise session/cookies
-// let session = require('express-session');
-// let passport = require('./helper/ppConfig');
+// initialise session/cookies
+let session = require('express-session');
+let passport = require('./helper/ppConfig');
 
-// app.use(session({
-//     secret: process.env.secret,
-//     saveUninitialized: true,
-//     resave: false, //don't resave if cookie is modified
-//     cookie: {maxAge: 360000}, //milliseconds until cookie timeout
-// }))
-// //must go before routes
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(session({
+    secret: process.env.secret,
+    saveUninitialized: true,
+    resave: false, //don't resave if cookie is modified
+    cookie: {maxAge: 360000}, //milliseconds until cookie timeout
+}))
+//must go before routes
+app.use(passport.initialize());
+app.use(passport.session());
 
-// app.use(flash());
+app.use(flash());
 
-//Share session information with all pages
-// app.use(function(req,res,next) {
-//     res.locals.currentUser = req.user;
-//     res.locals.alerts = req.flash();
-//     next(); //next is from the express framework
-// })
+// Share session information with all pages
+app.use(function(req,res,next) {
+    res.locals.currentUser = req.user;
+    res.locals.alerts = req.flash();
+    next(); //next is from the express framework
+})
 
 
 //Import Routes
