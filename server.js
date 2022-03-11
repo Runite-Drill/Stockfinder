@@ -47,7 +47,7 @@ const profileRoute = require("./routes/profile");
 //Mount routes
 app.use("/stockfinder/", searchRoute);
 // app.use("/stockfinder/", stockRoute);
-// app.use("/stockfinder/", authRoute);
+app.use("/stockfinder/", authRoute);
 // app.use("/stockfinder/", profileRoute);
 
 //NodeJS to look in a folder called views for ejs files
