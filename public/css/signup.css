@@ -1,0 +1,22 @@
+#body {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#signupForm {
+    /* height: 40vh; */
+    width: 30%;
+    min-width: 300px;
+    margin: 0 auto;
+    margin-top: 20vh;
+    margin-bottom: 20vh;
+    position: relative;
+    justify-content: center;
+}
+
+#signupContainer {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 20px;
+}

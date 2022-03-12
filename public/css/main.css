@@ -1,22 +1,32 @@
 body {
     background-color: rgb(242,242,242);
     padding: 20px;
+    font-family: 'Teko', sans-serif;
 }
+
 header {
     display: flex;
+    padding: 20px;
     padding-bottom: 0;
+    padding-top: 10px;
+    border-bottom: 1px solid white;
+    background-color: rgb(81,81,81);
+}
+
+a {
+    color: white;
 }
 
 #logoContainer {
-    width: 15%;
+    width: 20%;
 }
 #navBar  {
-    width: 70%;
+    width: 60%;
     display: flex;
 }
 #authenticationControls {
     text-align: right;
-    width: 15%;
+    width: 20%;
     display:inline-block;
 }
 .leftNav {
@@ -33,4 +43,16 @@ header {
     text-align: right;
     width: 40%;
     display:inline-block;
+}
+
+.btn-primary {
+    background-color: rgb(81,81,81);;
+    border-color: rgb(81,81,81);;
+    border-radius: 5px;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: rgb(128,128,128);
+    border-color: rgb(128,128,128);
 }

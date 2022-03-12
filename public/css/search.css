@@ -1,3 +1,52 @@
 body {
-    background-color: rgb(152, 169, 204);
+    background-color: rgb(22, 22, 22);
+    color: white;
+}
+
+#body {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#searchWindow {
+    /* height: 40vh; */
+    width: 30%;
+    min-width: 300px;
+    margin: 0 auto;
+    margin-top: 20vh;
+    margin-bottom: 20vh;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+#searchContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+h1 {
+    display: flex;    
+    justify-content: center;
+    font-size: 6vw;
+    text-align: center;
+    letter-spacing: 0.5vw;
+    /* border: 1px solid orangered; */
+    width: 100%;
+}
+
+input {
+    height: 3vw;
+    min-height: 30px;
+    width: 80%;
+    /* font-size: 1.5vw; */
+}
+
+button {
+    height: 3.5vw;
+    min-height: 35px;
+    width: 20%;
+    min-width: 50px;
 }

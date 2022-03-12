@@ -1,4 +1,5 @@
 const express = require("express");
+const isLoggedIn = require('../helper/isLoggedIn');
 const router = express.Router();
 
 const searchCtrl = require("../controllers/search");

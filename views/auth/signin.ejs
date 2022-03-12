@@ -1,20 +1,27 @@
-<h1>Login</h1>
-<br>
-<form method="POST" action="signin">
+<head><link rel="stylesheet" href="../css/signup.css"></head>
+<div class="container" id="body">
+    <div id="signupForm">
+        <h1>Login</h1>
+        <br>
+        <form method="POST" action="signin">
+            <div class="container">
 
-    <div class="form-group">
-        <label>Username</label>
-        <input type="text" name="username" class="form-control">
-    </div>
-    <br>
-    <div class="form-group">
-        <label>Password</label>
-        <input type="password" name="password" class="form-control">
-    </div>
-    <br>
-    <div class="form-group">
-        <a href="search">Cancel</a>
-        <button type="submit" class="btn btn-primary">Sign In</button>
-    </div>
+                <div class="mb-3">
+                    <label>Username</label>
+                    <input type="text" name="username" class="form-control">
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control">
+                </div>
+                <br>
+                <div id="signupContainer">
+                    <a href="search">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+            </div>
 
-</form>
+        </form>
+    </div>
+</div>
