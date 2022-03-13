@@ -8,8 +8,8 @@
     width: 30%;
     min-width: 300px;
     margin: 0 auto;
-    margin-top: 20vh;
-    margin-bottom: 20vh;
+    margin-top: 10vh;
+    /* margin-bottom: 20vh; */
     position: relative;
     justify-content: center;
 }
@@ -19,4 +19,8 @@
     justify-content: right;
     align-items: center;
     gap: 20px;
+}
+
+.container {
+    padding-left:0;
 }

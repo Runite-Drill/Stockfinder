@@ -21,21 +21,21 @@
         </div>
 
         <div id="navBar">
-            <nav class="leftNav">
+            <nav class="left">
                 <a href="search"><-- Return to Search</a>
                 <%if (currentUser) {%>
                     | <a href="#">Secert Nav 1</a>
                 <%}%> |
 
-                <a href="search">New Search</a> 
+                <a href="home">New Search</a> 
                 <%if (currentUser) {%>
                     | <a href="#">Secert Nav 2</a>
                 <%}%>
             </nav>
-            <nav class="centreNav">
+            <nav class="center">
                 <p>Tagline</p>
             </nav>
-            <nav class="rightNav">
+            <nav class="right">
                 <%if (currentUser) {%>
                     <p>Hello <%=currentUser.username%> |
                     <a href="profile?id=<%=currentUser.id%>">Profile</a></p>
@@ -77,13 +77,17 @@
     </div>
     <%- body %>
     <br><br>
-    <hr>
-    Made by Camiel
-    <script
-        src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous">
-    </script>
-    <script src="../js/main.js"></script>
+    <footer class="fixed-bottom">
+        <hr>
+        <p class="left">Disclaimer: This site helps you discover stocks on the market. Search results do not constitute financial advice. You are responsible for your own investment decisions.</p>
+        <p class="center">Made by Camiel: <a href="www.camiel.co.nz">Website</a> | <a href="#">LinkedIn</a> | <a href="#">Github</a></p>
+        <p class="right">Bored of stocks and feel like <a href="#">blobbing</a>?</p>
+        <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous">
+        </script>
+        <script src="../js/main.js"></script>
+    </footer>
 </body>
 </html>

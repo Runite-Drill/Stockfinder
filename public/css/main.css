@@ -1,19 +1,57 @@
 body {
-    background-color: rgb(242,242,242);
-    padding: 20px;
+    background-color: rgb(22, 22, 22);
+    color: white;
     font-family: 'Teko', sans-serif;
+    padding: 20px;
 }
 
-header {
+header, footer {
     display: flex;
     padding: 20px;
     padding-bottom: 0;
     padding-top: 10px;
+    background-color: rgb(42,42,42);
+}
+
+header {
     border-bottom: 1px solid white;
-    background-color: rgb(81,81,81);
+    font-size: 1.5rem;
+}
+footer {
+    border-top: 1px solid white;
+    font-size: 1rem;
+    text-align:center;
+    justify-content:space-evenly;
+}
+
+button {
+    background-color: rgb(81,81,81) !important;
+    border-color: rgb(81,81,81) !important;
+    border-radius: 10px !important;
+    color: white;
+    font-size: 1.5rem !important;
+}
+
+button:hover {
+    background-color: rgb(128,128,128) !important;
+    border-color: rgb(128,128,128) !important;
 }
 
 a {
+    color: white;
+}
+
+h1 {
+    display: flex;    
+    justify-content: center;
+    font-size: 6vw;
+    text-align: center;
+    letter-spacing: 0.5vw;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+table {
     color: white;
 }
 
@@ -29,30 +67,18 @@ a {
     width: 20%;
     display:inline-block;
 }
-.leftNav {
+.left {
     text-align: left;
     width: 40%;
     display:inline-block;
 }
-.centreNav {
+.center {
     text-align: center;
     width: 20%;
     display:inline-block;
 }
-.rightNav {
+.right {
     text-align: right;
     width: 40%;
     display:inline-block;
-}
-
-.btn-primary {
-    background-color: rgb(81,81,81);;
-    border-color: rgb(81,81,81);;
-    border-radius: 5px;
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: rgb(128,128,128);
-    border-color: rgb(128,128,128);
 }

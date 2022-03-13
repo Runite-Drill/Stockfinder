@@ -1,11 +1,11 @@
 <head><link rel="stylesheet" href="../css/search.css"></head>
-    <div id="searchWindow">
-        <h1>STOCKFINDER</h1>
-        <br>
-        <form method="post" action="search?str=">
-            <div id="searchContainer">
-                <input type="text" placeholder="Search the stock market">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
-        </form>
-    </div>
+<div id="searchWindow">
+    <h1>STOCKFINDER</h1>
+    <br>
+    <form method="get" action="search?searchStr=">
+        <div id="searchContainer">
+            <input type="text" placeholder="Search the stock market" name="searchStr">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>

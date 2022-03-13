@@ -1,0 +1,40 @@
+<head><link rel="stylesheet" href="../css/results.css"></head>
+<div id="searchWindow">
+    <h1>STOCKFINDER</h1>
+    <form method="get" action="search?searchStr=">
+        <div id="searchContainer">
+            <input type="text" value="<%=searchStr%>" name="searchStr">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+<div id="searchControls">
+
+</div>
+<div id="searchResults">
+    <table class="table table-striped">
+        <tr>
+            <th>#</th>
+            <th>Company Name</th>
+            <th>Price</th>
+            <th>Today's Change</th>
+            <th></th>
+            <%if (locals.currentUser) {%>
+                <th></th>
+            <%}%>
+        </tr>
+        <%stocks=[]%>
+        <% stocks.forEach(stock => { %>
+            <tr>
+                <td><%= stock.symbol %></td>
+                <td><%= stock.name %></td>
+                <td><%= stock.price %></td>
+                <td><%= stock.change %></td>
+                <td>Last updated <%=moment(stock.createdAt).fromNow()%></td>
+                <%if (locals.currentUser) {%>
+                    <td><a href ="follow?id=<%= stock.id %>">Follow</a></td>
+                <%}%>
+            </tr>
+        <%})%>
+    </table>
+</div>
