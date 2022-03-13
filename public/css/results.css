@@ -3,11 +3,10 @@
     width: 30%;
     min-width: 300px;
     margin: 0 auto;
-    margin-top: 20vh;
-    margin-bottom: 20vh;
+    /* margin-top: 20vh; */
+    margin-bottom: 5vh;
     justify-content: center;
     align-items: center;
-    /* border: 1px solid red; */
 }
 
 #searchContainer{
@@ -25,10 +24,8 @@ input {
 }
 
 button {
-    height: 3.2vw;
-    min-height: 32px;
+    height: 3.5vw;
+    min-height: 35px;
     width: 20%;
     min-width: 50px;
-    font-size: 1.5vw;
-    border-radius: 10px;
 }
