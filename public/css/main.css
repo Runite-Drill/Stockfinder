@@ -51,10 +51,6 @@ h1 {
     margin-bottom: 0;
 }
 
-table {
-    color: white;
-}
-
 #logoContainer {
     width: 20%;
 }
@@ -81,4 +77,8 @@ table {
     text-align: right;
     width: 40%;
     display:inline-block;
+}
+
+#navLogo {
+    height: 40px;
 }
