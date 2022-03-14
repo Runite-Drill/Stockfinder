@@ -47,7 +47,7 @@ const authRoute = require("./routes/auth");
 const profileRoute = require("./routes/profile");
 //Mount routes
 app.use("/stockfinder/", searchRoute);
-// app.use("/stockfinder/", stockRoute);
+app.use("/stockfinder/", stockRoute);
 app.use("/stockfinder/", authRoute);
 // app.use("/stockfinder/", profileRoute);
 

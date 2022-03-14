@@ -16,23 +16,34 @@
         <tr>
             <th>#</th>
             <th>Company Name</th>
-            <th>Price</th>
-            <th>Today's Change</th>
-            <th></th>
+            <th>Exchange</th>
+            <th>Market Cap</th>
+            <th>Current Price</th>
+            <th>Change</th>
+            <th>Yesterday's Volume</th>
+            <th>RPS</th>
             <%if (locals.currentUser) {%>
                 <th></th>
             <%}%>
         </tr>
-        <%stocks=[]%>
         <% stocks.forEach(stock => { %>
             <tr>
-                <td><%= stock.symbol %></td>
-                <td><%= stock.name %></td>
-                <td><%= stock.price %></td>
-                <td><%= stock.change %></td>
-                <td>Last updated <%=moment(stock.createdAt).fromNow()%></td>
+                <td><%= stock.core.symbol %></td>
+                <td><a href="stock/<%= stock.core.symbol %>"><%= stock.core.name %></a></td>
+                <td><%= stock.core.exchange %></td>
+                <td><%= stock.formatValue(stock.core.marketCap) %></td>
+                <td><%= stock.core.currentPrice %></td>
+                <td>
+                    <% if (stock.core.priceChange < 0) { %>
+                        <span class="red"><%= Math.floor(stock.core.priceChange*10000)/100%>%</span>
+                    <%} else if (stock.core.priceChange > 0) { %>
+                        <span class="green"><%= Math.floor(stock.core.priceChange*10000)/100%>%</span>
+                    <%}%>
+                    </td>
+                <td><%= stock.formatValue(stock.core.volume) %></td>
+                <td><%= stock.core.revenuePerShare %></td>
                 <%if (locals.currentUser) {%>
-                    <td><a href ="follow?id=<%= stock.id %>">Follow</a></td>
+                    <td><a href ="follow?symbol=<%= stock.core.symbol %>">Follow</a></td>
                 <%}%>
             </tr>
         <%})%>
