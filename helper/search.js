@@ -3,6 +3,7 @@ const Stock = require("../models/Stock");
 
 exports.getStockInfo = async function(symb) {
     let newStock = null;
+
     newStock = yahooFinance.quote({
         symbol: symb,
         modules: [ 'price', 'summaryDetail' , 'earnings', 'summaryProfile' , 'financialData']
@@ -41,9 +42,5 @@ exports.getStockInfo = async function(symb) {
 
     });
 
-    let x = await newStock;
-    // console.log(x);
-
-
-    return x;
+    return await newStock;
 }

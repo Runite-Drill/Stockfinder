@@ -26,8 +26,8 @@
                 <th></th>
             <%}%>
         </tr>
+        <!-- <%console.log(stocks) %> -->
         <% stocks.forEach(stock => { %>
-            <!-- <%console.log(stock) %> -->
             <tr>
                 <td><%= stock.core.symbol %></td>
                 <td><a href="stock/<%= stock.core.symbol %>"><%= stock.core.name %></a></td>

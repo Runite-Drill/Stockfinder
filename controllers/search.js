@@ -9,7 +9,6 @@ api_key.apiKey = "c8ntb0qad3iep4jeef40"
 const finnhubClient = new finnhub.DefaultApi()
 
 const axios = require('axios');
-const { promiseImpl } = require("ejs");
 
 //Alpha Vantage
 const baseURL = 'https://www.alphavantage.co/query?';
@@ -20,7 +19,7 @@ exports.search_home_get = (req, res) => {
     res.render("search/home");
 }
 //HTTP GET - load search results
-exports.search_results_get = (req, res) => {
+exports.search_results_get = async(req, res) => {
     //parse search string and get results
     let sStr = req.query.searchStr; //turn search into a object model as well to store in user history
     let stocks = [];
@@ -49,41 +48,55 @@ exports.search_results_get = (req, res) => {
         url: baseURL+"function="+func+"&keywords="+keys+"&apikey="+apiKey,
     })
     .then(async(response) => {
-        console.log('Search 2:')
+        // console.log('Search 2:')
+        // console.log(response);
         // console.log(response.data.bestMatches);
         let relevantStocks = response.data.bestMatches;
         relevantStocks=relevantStocks.filter(stock=>stock['3. type']=="Equity");
         relevantStocks=relevantStocks.filter(stock=>stock['8. currency']=="USD");
         relevantStocks=relevantStocks.filter(stock=>Number(stock['9. matchScore'])>0.65);
 
-        const stockPromise = new Promise((resolve,reject) => {
-            relevantStocks.forEach(async(stock)=>{
+        // console.log(relevantStocks);
+        var itemsProcessed = 0;
+        // const stockPromise = new Promise((resolve,reject) => {
+            await relevantStocks.forEach(async(stock)=>{
                 let newStock = await Search.getStockInfo(stock['1. symbol']);
                 stocks.push(newStock);
-                console.log('Inside for each: ' + stocks)
+                // console.log('Inside for each: ' + newStock.summaryData)
+                itemsProcessed++;
                 // console.log('Stock foreach ' + newStock.price.symbol)
                 // res.redirect("search/results", {searchStr:sStr,stocks,moment});
+                if(itemsProcessed === relevantStocks.length) {
+                    callback(stocks, res, sStr);
+                  }
             })
-            resolve(relevantStocks)
-            return stocks;
-        })
+            // resolve(relevantStocks)
+            // return stocks;
+        // })
          
         // stocks = stockPromise(relevantStocks)
         // console.log(relevantStocks)
-        console.log('Stock then: ' + stocks)
+        // console.log('Stock then: ' + stocks)
         
     })
-    .then( stocks => {
-        // console.log(stocks)
-        console.log('RENDER');
-        console.log('Stock Render: ' + stocks);
-        // setTimeout(()=>{
-            console.log('RENDERING')
-            res.render("search/results", {searchStr:sStr,stocks: [],moment})
+    // .then(stocks => {
+    //     // console.log(stocks)
+    //     console.log('RENDER');
+    //     console.log('Stock Render: ' + stocks);
+    //     // setTimeout(()=>{
+    //         console.log('RENDERING')
+    //         res.render("search/results", {searchStr:sStr,stocks: [],moment})
 
-        // },10000)
+    //     // },10000)
 
-    })
+    // })
     .catch(err=>{console.log(err); res.send("Error searching for stock: " + err._message+'.')})
 
+}
+
+function callback(stocks, res, sStr) {
+        // console.log('RENDER');
+        // console.log('Stock Render: ' + stocks.core);
+        // console.log('RENDERING')
+        res.render("search/results", {searchStr:sStr,stocks,moment})
 }
