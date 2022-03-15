@@ -1,0 +1,35 @@
+<div class="row2 float">
+    <script
+      type="text/javascript"
+      src="https://s3.tradingview.com/tv.js"
+    ></script>
+    <script type="text/javascript">
+        
+        <% let exSymb = ":"%>
+        <% let exchange = "NYSE"%>
+        <% if (stock.core.exchange == 'Nasdaq') {exSymb = "-"; exchange = 'Nasdaq'}%>
+        <% if (stock.core.exchange == 'NYSE American') {exSymb = ":"; exchange = 'AMEX'}%>
+        new TradingView.widget({
+            width: 550,
+            height: 475,
+            symbol: "<%=exchange%><%=exSymb%><%=stock.core.symbol%>",
+            interval: "H",
+            timezone: "Etc/UTC",
+            theme: "Dark",
+            style: "1",
+            locale: "en",
+            toolbar_bg: "#F1F3F6",
+            enable_publishing: true,
+            hide_side_toolbar: true,
+            allow_symbol_change: true,
+            details: true,
+            hideideas: true,
+            studies: [
+            "MASimple@tv-basicstudies",
+            ],
+            show_popup_button: true,
+            popup_width: "600",
+            popup_height: "325",
+        });
+    </script>
+</div>

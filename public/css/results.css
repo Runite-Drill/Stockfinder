@@ -29,3 +29,15 @@ button {
     width: 20%;
     min-width: 50px;
 }
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}
+
+.opacity20 {
+    opacity: 0.2;
+}

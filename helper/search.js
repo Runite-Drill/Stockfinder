@@ -1,23 +1,15 @@
-//Include models
-// const User = require("../models/User"); 
-const Stock = require("../models/Stock");
-const moment = require("moment");
-// const Search = require("../helper/search");
 const yahooFinance = require('yahoo-finance');
+const Stock = require("../models/Stock");
 
-const axios = require('axios');
-
-
-//HTTP GET - load stock detail
-exports.stock_detail_get = (req, res) => {
-
-    yahooFinance.quote({
-        symbol: req.params.symbol,
+exports.getStockInfo = async function(symb) {
+    let newStock = null;
+    newStock = yahooFinance.quote({
+        symbol: symb,
         modules: [ 'price', 'summaryDetail' , 'earnings', 'summaryProfile' , 'financialData']
-    }, function(error, quotes) {
+    },
+    async function(error, quotes) {
         if (error) {return}
-        if (quotes.price.exchangeName == "NasdaqGS") {quotes.price.exchangeName="Nasdaq"};
-        // console.log(quotes.price.longName)
+        // if (quotes.price.exchangeName == "NasdaqGS") {quotes.price.exchangeName="Nasdaq"};
         let coreData = {
             symbol: quotes.price.symbol,
             name: quotes.price.longName,
@@ -27,7 +19,8 @@ exports.stock_detail_get = (req, res) => {
             priceChange: -(quotes.summaryDetail.previousClose - quotes.financialData.currentPrice)/quotes.summaryDetail.previousClose,
             marketCap: quotes.summaryDetail.marketCap,
             volume: quotes.summaryDetail.volume,
-            revenuePerShare: quotes.financialData.revenuePerShare,    
+            revenuePerShare: quotes.financialData.revenuePerShare,
+            
         }
         let stockConstructor = {
             core: coreData,
@@ -41,7 +34,16 @@ exports.stock_detail_get = (req, res) => {
         // Stock.find()
         // .then()
         // .catch()
-        let newStock = new Stock(stockConstructor);
-        res.render("stock/detail", {stock: newStock});
-    })
+        newStock = await new Stock(stockConstructor);
+        // console.log(newStock);
+        // newStock.save(); //DON'T SAVE TO MONGO DB YET - GET THIS WORKING ASAP - FIND & UPDATE
+        return newStock;
+
+    });
+
+    let x = await newStock;
+    // console.log(x);
+
+
+    return x;
 }
