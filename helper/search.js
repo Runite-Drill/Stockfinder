@@ -10,6 +10,7 @@ exports.getStockInfo = async function(symb) {
     },
     async function(error, quotes) {
         if (error) {return}
+        if (!quotes) {return}
         // if (quotes.price.exchangeName == "NasdaqGS") {quotes.price.exchangeName="Nasdaq"};
         let coreData = {
             symbol: quotes.price.symbol,
@@ -41,6 +42,8 @@ exports.getStockInfo = async function(symb) {
 
     });
 
-    console.log("This line is here solely for the purpose of making the code not break. Don't ask me why it's needed, because nobody has any idea.", await stockPromise);
+    // console.log("This line is here solely for the purpose of making the code not break. Don't ask me why it's needed, because nobody has any idea.", await stockPromise);
+    let x = await stockPromise; //for some reason this line is needed before the return or it all breaks. it also prints out the data for some reason.
+    // console.log(x)
     return stockPromise;
 }

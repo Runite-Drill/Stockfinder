@@ -23,21 +23,40 @@ exports.search_results_get = async(req, res) => {
     //parse search string and get results
     let sStr = req.query.searchStr; //turn search into a object model as well to store in user history
     let stocks = [];
+    let searchComplete = [false, false];
+
+    let itemsProcessed = 0;
 
     //FUNNHUB SEARCH
-    // finnhubClient.symbolSearch(sStr, (error, data, response) => {
-    //     let stocksFound = data.result;
-    //     stocksFound = stocksFound.filter(stock=>{stock.type=="Common Stock"})
-    //     stocksFound.forEach((stock)=>{
-    //         console.log('Search 1')
-    //         let newStock = Search.getStockInfo(stock.symbol);
-    //         stocks.push( newStock);
-    //     })
-    // });
+    finnhubClient.symbolSearch(sStr, async(error, data, response) => {
+        console.log('Search 1')
+        let stocksFound = data.result;
+        console.log(typeof(stocksFound))
+        stocksFound.forEach(stock=>{console.log(stock["type"])})
+        // stocksFound.forEach(stock=>{console.log(typeof(stock.type))})
+        // console.log(stocksFound.filter(stock=>{stock.type!="Common Stock"}))
+        stocksFound = await stocksFound.filter(stock=>{stock["type"]=="Common Stock"})
+        // stocksFound.forEach(stock=>{console.log(stock.type)})
+        console.log('filtered stocks: ' + await stocksFound)
 
-    // setTimeout(() => {
-    //     console.log(stocks);
-    // }, 1000);
+        if (stocksFound.length > 0) {
+            console.log('STOCKS FOUND')
+            await stocksFound.forEach(async(stock)=>{
+                console.log(stock.symbol)
+                let newStock = await Search.getStockInfo(stock.symbol);
+                stocks.push( newStock);
+                itemsProcessed++
+                if(itemsProcessed === stocksFound.length) {
+                    searchComplete[0] = true;
+                    callback(stocks, res, sStr, searchComplete);
+                }
+            })
+        } else {
+            searchComplete[0] = true;
+            callback(stocks, res, sStr, searchComplete);
+        }
+        
+    });
 
     //ALPHA VANTAGE SEARCH
     //Get relevant search results
@@ -57,7 +76,7 @@ exports.search_results_get = async(req, res) => {
         relevantStocks=relevantStocks.filter(stock=>Number(stock['9. matchScore'])>0.65);
 
         // console.log(relevantStocks);
-        var itemsProcessed = 0;
+        let itemsProcessed = 0;
         // const stockPromise = new Promise((resolve,reject) => {
             await relevantStocks.forEach(async(stock)=>{
                 let newStock = await Search.getStockInfo(stock['1. symbol']);
@@ -67,7 +86,8 @@ exports.search_results_get = async(req, res) => {
                 // console.log('Stock foreach ' + newStock.price.symbol)
                 // res.redirect("search/results", {searchStr:sStr,stocks,moment});
                 if(itemsProcessed === relevantStocks.length) {
-                    callback(stocks, res, sStr);
+                    searchComplete[1] = true;
+                    callback(stocks, res, sStr, searchComplete);
                   }
             })
             // resolve(relevantStocks)
@@ -94,10 +114,14 @@ exports.search_results_get = async(req, res) => {
 
 }
 
-function callback(stocks, res, sStr) {
+function callback(stocks, res, sStr, searchComplete) {
     // console.log('RENDER');
     // console.log('Stock Render: ' + stocks.core);
     // console.log('RENDERING')
     // console.log(stocks);
-    res.render("search/results", {searchStr:sStr,stocks,moment})
+    console.log(searchComplete)
+    if (!searchComplete.some(el=>el===false)) {
+        console.log('RENDERING')
+        res.render("search/results", {searchStr:sStr,stocks,moment})
+    }
 }
