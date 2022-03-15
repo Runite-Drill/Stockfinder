@@ -2,10 +2,14 @@
 // const User = require("../models/User"); 
 const Stock = require("../models/Stock");
 const moment = require("moment");
-// const Search = require("../helper/search");
-const yahooFinance = require('yahoo-finance');
+const Search = require("../helper/search");
+const finnhub = require('finnhub');
+const api_key = finnhub.ApiClient.instance.authentications['api_key'];
+api_key.apiKey = "c8ntb0qad3iep4jeef40"
+const finnhubClient = new finnhub.DefaultApi()
 
 const axios = require('axios');
+const { promiseImpl } = require("ejs");
 
 //Alpha Vantage
 const baseURL = 'https://www.alphavantage.co/query?';
@@ -18,67 +22,66 @@ exports.search_home_get = (req, res) => {
 //HTTP GET - load search results
 exports.search_results_get = (req, res) => {
     //parse search string and get results
-    let sStr = req.query.searchStr; //turn search into a database objkect as well?
-    let stocks =[];
+    let sStr = req.query.searchStr; //turn search into a object model as well to store in user history
+    let stocks = [];
 
-    // res.render("search/results", {searchStr:sStr,stocks,moment});
+    //FUNNHUB SEARCH
+    // finnhubClient.symbolSearch(sStr, (error, data, response) => {
+    //     let stocksFound = data.result;
+    //     stocksFound = stocksFound.filter(stock=>{stock.type=="Common Stock"})
+    //     stocksFound.forEach((stock)=>{
+    //         console.log('Search 1')
+    //         let newStock = Search.getStockInfo(stock.symbol);
+    //         stocks.push( newStock);
+    //     })
+    // });
 
+    // setTimeout(() => {
+    //     console.log(stocks);
+    // }, 1000);
+
+    //ALPHA VANTAGE SEARCH
     //Get relevant search results
     let func = 'SYMBOL_SEARCH';
     let keys = sStr;
-    let symb = sStr;
-    let inte = '60min';
-
     axios({
         method: 'get',
         url: baseURL+"function="+func+"&keywords="+keys+"&apikey="+apiKey,
     })
-    .then(response => {
+    .then(async(response) => {
+        console.log('Search 2:')
         // console.log(response.data.bestMatches);
         let relevantStocks = response.data.bestMatches;
         relevantStocks=relevantStocks.filter(stock=>stock['3. type']=="Equity");
         relevantStocks=relevantStocks.filter(stock=>stock['8. currency']=="USD");
         relevantStocks=relevantStocks.filter(stock=>Number(stock['9. matchScore'])>0.65);
-        relevantStocks.forEach(stock=>{
-            yahooFinance.quote({
-                symbol: stock['1. symbol'],
-                modules: [ 'price', 'summaryDetail' , 'earnings', 'summaryProfile' , 'financialData']
-            }, function(error, quotes) {
-                if (error) {return}
-                if (quotes.price.exchangeName == "NasdaqGS") {quotes.price.exchangeName="Nasdaq"};
-                let coreData = {
-                    symbol: quotes.price.symbol,
-                    name: quotes.price.longName,
-                    type: quotes.price.quoteType,
-                    exchange: quotes.price.exchangeName,
-                    currentPrice: quotes.financialData.currentPrice,
-                    priceChange: -(quotes.summaryDetail.previousClose - quotes.financialData.currentPrice)/quotes.summaryDetail.previousClose,
-                    marketCap: quotes.summaryDetail.marketCap,
-                    volume: quotes.summaryDetail.volume,
-                    revenuePerShare: quotes.financialData.revenuePerShare,
-                    
-                }
-                let stockConstructor = {
-                    core: coreData,
-                    companyInfo: quotes.summaryProfile,
-                    priceData: quotes.price,
-                    earningData: quotes.earnings,
-                    financialData: quotes.financialData,
-                    summaryData: quotes.summaryDetail,
-                }
 
-                // Stock.find()
-                // .then()
-                // .catch()
-                let newStock = new Stock(stockConstructor);
-                // newStock.save(); //DON'T SAVE TO MONGO DB YET
+        const stockPromise = new Promise((resolve,reject) => {
+            relevantStocks.forEach(async(stock)=>{
+                let newStock = await Search.getStockInfo(stock['1. symbol']);
                 stocks.push(newStock);
+                console.log('Inside for each: ' + stocks)
+                // console.log('Stock foreach ' + newStock.price.symbol)
+                // res.redirect("search/results", {searchStr:sStr,stocks,moment});
             })
+            resolve(relevantStocks)
+            return stocks;
         })
+         
+        // stocks = stockPromise(relevantStocks)
+        // console.log(relevantStocks)
+        console.log('Stock then: ' + stocks)
+        
+    })
+    .then( stocks => {
+        // console.log(stocks)
+        console.log('RENDER');
+        console.log('Stock Render: ' + stocks);
+        // setTimeout(()=>{
+            console.log('RENDERING')
+            res.render("search/results", {searchStr:sStr,stocks: [],moment})
 
-        setTimeout(() => {
-            res.render("search/results", {searchStr:sStr,stocks,moment});
-        }, 1000);
+        // },10000)
 
     })
     .catch(err=>{console.log(err); res.send("Error searching for stock: " + err._message+'.')})
