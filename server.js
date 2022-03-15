@@ -46,6 +46,9 @@ const stockRoute = require("./routes/stock");
 const authRoute = require("./routes/auth");
 const profileRoute = require("./routes/profile");
 //Mount routes
+app.get("/", (req,res,next) => {
+    res.redirect('/stockfinder/home')
+});
 app.use("/stockfinder/", searchRoute);
 app.use("/stockfinder/", stockRoute);
 app.use("/stockfinder/", authRoute);

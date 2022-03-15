@@ -95,8 +95,9 @@ exports.search_results_get = async(req, res) => {
 }
 
 function callback(stocks, res, sStr) {
-        // console.log('RENDER');
-        // console.log('Stock Render: ' + stocks.core);
-        // console.log('RENDERING')
-        res.render("search/results", {searchStr:sStr,stocks,moment})
+    // console.log('RENDER');
+    // console.log('Stock Render: ' + stocks.core);
+    // console.log('RENDERING')
+    // console.log(stocks);
+    res.render("search/results", {searchStr:sStr,stocks,moment})
 }
