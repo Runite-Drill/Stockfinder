@@ -44,7 +44,7 @@ app.use(function(req,res,next) {
 const searchRoute = require("./routes/search");
 const stockRoute = require("./routes/stock");
 const authRoute = require("./routes/auth");
-const profileRoute = require("./routes/profile");
+const userRoute = require("./routes/user");
 //Mount routes
 app.get("/", (req,res,next) => {
     res.redirect('/stockfinder/home')
@@ -52,7 +52,7 @@ app.get("/", (req,res,next) => {
 app.use("/stockfinder/", searchRoute);
 app.use("/stockfinder/", stockRoute);
 app.use("/stockfinder/", authRoute);
-// app.use("/stockfinder/", profileRoute);
+app.use("/stockfinder/", userRoute);
 
 //NodeJS to look in a folder called views for ejs files
 app.set("view engine", "ejs"); //i.e. no need for "../view/.."

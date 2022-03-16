@@ -40,7 +40,7 @@ exports.auth_signin_get = (req,res)=> {
 
 // HTTP POST - SignIn - to post the sign-in data
 exports.auth_signin_post = passport.authenticate("local", {
-    successRedirect: "search", 
+    successRedirect: "home", 
     failureRedirect: "signin",
     successFlash: "Logged in successfully.",
     failureFlash: "Invalid login or password.",
