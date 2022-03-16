@@ -25,19 +25,36 @@ exports.getStockInfo = async function(symb) {
             
         }
         let stockConstructor = {
+            symbol: quotes.price.symbol,
+            searchDate: Date.now(),
             core: coreData,
             companyInfo: quotes.summaryProfile,
             priceData: quotes.price,
             earningData: quotes.earnings,
             financialData: quotes.financialData,
             summaryData: quotes.summaryDetail,
+            formatValue: function(val) {
+                let valStr = '???';
+                if (val) {
+                    val = +val.toPrecision(3);
+                    let appStr = '';
+                    while (val > 1000) {
+                        val /= 1000;
+                        switch (appStr) {
+                            case '': appStr = 'K'; break;
+                            case 'K': appStr = 'M'; break;
+                            case 'M': appStr = 'B'; break;
+                            case 'B': appStr = 'T'; break;
+                            case 'T': appStr = 'Q'; break;
+                        }
+                    }
+                    valStr = val+appStr;
+                }
+                return valStr;
+            }
         }
 
-        // Stock.find()
-        // .then()
-        // .catch()
-        stockPromise = await new Stock(stockConstructor);
-        // newStock.save(); //DON'T SAVE TO MONGO DB YET - GET THIS WORKING ASAP - FIND & UPDATE
+        stockPromise = stockConstructor;
         // return newStock;
 
     });

@@ -45,3 +45,25 @@ exports.stock_detail_get = (req, res) => {
         res.render("stock/detail", {stock: newStock});
     })
 }
+
+exports.stock_follow_get = (req,res) => {
+    //either set the stock model here when the stock is followed, or create in the database when searched
+
+    console.log(req.body);
+    console.log(req.query.symbol);
+
+    let stock = new Stock(req.body);
+    stock.save() 
+
+    .then(()=>{
+
+        req.body.followers.forEach(user=> {
+            User.findById(user, (error, user) => {
+                user.following.push(stock);
+                user.save();
+            })
+        })
+        res.redirect("back");
+    })
+    .catch((err)=>{console.log(err); res.send("Error following stock.")})
+}

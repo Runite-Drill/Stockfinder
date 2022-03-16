@@ -121,6 +121,35 @@ function callback(stocks, res, sStr, searchComplete) {
     // console.log(stocks);
     console.log(searchComplete)
     if (!searchComplete.some(el=>el===false)) {
+        //Search is complete
+        console.log('Saving stocks')
+
+        stocks.forEach(stock=>{
+            Stock.updateOne({symbol: stock.core.symbol},stock)
+            .then((res)=>{
+                console.log(res)
+                if (res.modifiedCount < 1) {
+                    let newStock = new Stock(stock);
+                    newStock.save() 
+                    .then(()=>{
+                        console.log(`Successfully added ${stock.core.symbol} to the database.`);
+                    })
+                    .catch((err)=>{
+                        console.log(err); 
+                        // res.send("Error saving stock to database.")
+                        console.log("Error saving stock to database."); 
+                    })
+                } else {
+                    console.log(`Successfully updated ${stock.core.symbol} in the database.`);
+                }
+            })
+            .catch((err)=>{
+                console.log(err); 
+                // res.send("Error finding stock in database. Creating a new entry...")
+                console.log("Error saving stock to database.");
+            })
+        })
+
         console.log('RENDERING')
         res.render("search/results", {searchStr:sStr,stocks,moment})
     }

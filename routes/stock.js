@@ -2,7 +2,8 @@ const express = require("express");
 const isLoggedIn = require('../helper/isLoggedIn');
 const router = express.Router();
 
-const searchCtrl = require("../controllers/stock");
-router.get("/stock/:symbol", searchCtrl.stock_detail_get);
+const stockCtrl = require("../controllers/stock");
+router.get("/stock/:symbol", stockCtrl.stock_detail_get);
+router.get("/follow", stockCtrl.stock_follow_get);
 
 module.exports = router;

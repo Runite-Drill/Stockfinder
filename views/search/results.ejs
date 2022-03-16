@@ -28,12 +28,13 @@
         </tr>
         <!-- <%console.log(stocks) %> -->
         <% stocks.forEach(stock => { %>
+            <input name="<%=stock.core.symbol%>" value="<%=stock%>" type="hidden">
             <tr>
                 <td><%= stock.core.symbol %></td>
                 <td><a href="stock/<%= stock.core.symbol %>"><%= stock.core.name %></a></td>
                 <td><%= stock.core.exchange %></td>
                 <td><%= stock.formatValue(stock.core.marketCap) %></td>
-                <td><%= stock.core.currentPrice %> <small class="opacity20">(<%=moment(stock.updatedAt).fromNow()%>)</small></td>
+                <td><%= stock.core.currentPrice %> <small class="opacity20">(<%=moment(stock.searchDate).fromNow()%>)</small></td>
                 <td>
                     <% if (stock.core.priceChange < 0) { %>
                         <span class="red"><%= Math.floor(stock.core.priceChange*10000)/100%>%</span>
