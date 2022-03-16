@@ -29,7 +29,15 @@ const userSchema = mongoose.Schema({
     stocksFollowed: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Stock",
-    }]
+    }],
+    following: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+    }],
+    followers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+    }],
 
     //EXAMPLE of adding user roles.
     // userRole: {

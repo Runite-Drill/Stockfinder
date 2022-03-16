@@ -1,5 +1,5 @@
 //Include models
-// const User = require("../models/User"); 
+const User = require("../models/User"); 
 const Stock = require("../models/Stock");
 const moment = require("moment");
 // const Search = require("../helper/search");
@@ -11,59 +11,47 @@ const axios = require('axios');
 //HTTP GET - load stock detail
 exports.stock_detail_get = (req, res) => {
 
-    yahooFinance.quote({
-        symbol: req.params.symbol,
-        modules: [ 'price', 'summaryDetail' , 'earnings', 'summaryProfile' , 'financialData']
-    }, function(error, quotes) {
-        if (error) {return}
-        if (quotes.price.exchangeName == "NasdaqGS") {quotes.price.exchangeName="Nasdaq"};
-        // console.log(quotes.price.longName)
-        let coreData = {
-            symbol: quotes.price.symbol,
-            name: quotes.price.longName,
-            type: quotes.price.quoteType,
-            exchange: quotes.price.exchangeName,
-            currentPrice: quotes.financialData.currentPrice,
-            priceChange: -(quotes.summaryDetail.previousClose - quotes.financialData.currentPrice)/quotes.summaryDetail.previousClose,
-            marketCap: quotes.summaryDetail.marketCap,
-            volume: quotes.summaryDetail.volume,
-            revenuePerShare: quotes.financialData.revenuePerShare,    
-        }
-        let stockConstructor = {
-            core: coreData,
-            companyInfo: quotes.summaryProfile,
-            priceData: quotes.price,
-            earningData: quotes.earnings,
-            financialData: quotes.financialData,
-            summaryData: quotes.summaryDetail,
-        }
-
-        // Stock.find()
-        // .then()
-        // .catch()
-        let newStock = new Stock(stockConstructor);
-        res.render("stock/detail", {stock: newStock});
+    Stock.findOne({symbol: req.query.symbol})
+    .then(stock=>{res.render("stock/detail", {stock})})
+    .catch(err=>{
+        console.log(err); 
+        // res.send("Error displaying details for stock: " + err._message+'.')
+        console.log(`Error displaying details for ${req.query.symbol}`)
     })
 }
 
 exports.stock_follow_get = (req,res) => {
     //either set the stock model here when the stock is followed, or create in the database when searched
-
-    console.log(req.body);
-    console.log(req.query.symbol);
-
-    let stock = new Stock(req.body);
-    stock.save() 
-
-    .then(()=>{
-
-        req.body.followers.forEach(user=> {
-            User.findById(user, (error, user) => {
-                user.following.push(stock);
-                user.save();
-            })
-        })
-        res.redirect("back");
+    
+    Stock.findOne({symbol: req.query.symbol})
+    .then(stock=>{
+        if (req.user) {
+            console.log(`Following ${req.query.symbol}`)
+            User.findById(req.user.id, ((err, user)=>{
+                user.stocksFollowed.push(stock);
+                user.save()
+                .then(user=>{
+                    stock.followers.push(user);
+                    stock.save()
+                    .then(()=>{res.redirect("back")})
+                    .catch(err=>{
+                        console.log(err); 
+                        // res.send("Error displaying details for stock: " + err._message+'.')
+                        console.log(`Error updating follow details for ${req.query.symbol}`)
+                    })
+                })
+                .catch(err=>{
+                    console.log(err); 
+                    // res.send("Error displaying details for stock: " + err._message+'.')
+                    console.log(`Error displaying follow details for ${req.user.username}`)
+                })
+            }))
+        }
     })
-    .catch((err)=>{console.log(err); res.send("Error following stock.")})
+    .catch(err=>{
+        console.log(err); 
+        // res.send("Error displaying details for stock: " + err._message+'.')
+        console.log(`Error displaying details for ${req.query.symbol}`)
+    })
+  
 }
