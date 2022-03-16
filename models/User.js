@@ -22,6 +22,15 @@ const userSchema = mongoose.Schema({
         minLength: [6, "Your password must be at least 6 characters."],
         unique: true,
     },
+    searchHistory: {
+        type: Array,
+        default: [],
+    },
+    stocksFollowed: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Stock",
+    }]
+
     //EXAMPLE of adding user roles.
     // userRole: {
         //type: String

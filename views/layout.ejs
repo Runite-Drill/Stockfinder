@@ -23,15 +23,11 @@
 
         <div id="navBar">
             <nav class="left">
-                <a href="/stockfinder/home"><-- Return to Search</a>
                 <%if (currentUser) {%>
-                    | <a href="#">Secert Nav 1</a>
-                <%}%> |
+                    <a href="/stockfinder/search?searchStr=<%=currentUser.searchHistory[currentUser.searchHistory.length-1]%>"><-- Return to Search</a> |
+                <%}%>
 
                 <a href="/stockfinder/home">New Search</a> 
-                <%if (currentUser) {%>
-                    | <a href="#">Secert Nav 2</a>
-                <%}%>
             </nav>
             <nav class="center">
                 <p>Tagline</p>

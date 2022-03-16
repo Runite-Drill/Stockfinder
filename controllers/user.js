@@ -6,7 +6,7 @@ const User = require("../models/User");
 exports.user_profile_get = (req,res) => {
     User.findById(req.query.id)
     .then((user) => {
-        if (res.locals.currentUser && res.locals.currentUser.id === user.id) {
+        if (req.user && req.user.id === user.id) {
             res.render("user/ownProfile", {user});
         } else {
             res.render("user/profile", {user});

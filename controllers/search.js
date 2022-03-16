@@ -1,5 +1,5 @@
 //Include models
-// const User = require("../models/User"); 
+const User = require("../models/User"); 
 const Stock = require("../models/Stock");
 const moment = require("moment");
 const Search = require("../helper/search");
@@ -26,6 +26,16 @@ exports.search_results_get = async(req, res) => {
     let searchComplete = [false, false];
 
     let itemsProcessed = 0;
+
+    //save search query to user profile so they can return to it later
+    if (req.user) {
+        console.log('Updating search history...')
+        // User.findByIdAndUpdate(req.user.id, res.locals.currentUser.searchHistory.push(sStr))
+        User.findById(req.user.id, ((err, user)=>{
+            user.searchHistory.push(sStr);
+            user.save();
+        }))
+    }
 
     //FUNNHUB SEARCH
     finnhubClient.symbolSearch(sStr, async(error, data, response) => {
@@ -125,10 +135,9 @@ function callback(stocks, res, sStr, searchComplete) {
         console.log('Saving stocks')
 
         stocks.forEach(stock=>{
-            Stock.updateOne({symbol: stock.core.symbol},stock)
-            .then((res)=>{
-                console.log(res)
-                if (res.modifiedCount < 1) {
+            Stock.updateOne({symbol: stock.core.symbol}, stock)
+            .then((response)=>{
+                if (response.modifiedCount < 1) {
                     let newStock = new Stock(stock);
                     newStock.save() 
                     .then(()=>{
@@ -137,7 +146,7 @@ function callback(stocks, res, sStr, searchComplete) {
                     .catch((err)=>{
                         console.log(err); 
                         // res.send("Error saving stock to database.")
-                        console.log("Error saving stock to database."); 
+                        console.log(`Error saving ${stock.core.symbol} to the database.`); 
                     })
                 } else {
                     console.log(`Successfully updated ${stock.core.symbol} in the database.`);
