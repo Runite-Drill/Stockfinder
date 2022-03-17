@@ -1,0 +1,188 @@
+#bodyHeader, #bodySubheader {
+    display: flex;    
+    justify-content:space-evenly;
+    align-items:center;
+    /* font-size: 6vw; */
+    text-align: center;
+    /* letter-spacing: 0.5vw; */
+    width: 60%;
+    height: 50px;
+    margin: 10px auto;
+    /* border: 1px solid red; */
+}
+
+#bodyHeader {
+    border-bottom: 1px solid white;
+    padding-bottom: 10px;
+}
+
+#companyLogo {
+    display: flex;  
+    align-items:center;
+    width: 25%;
+    height: 100%;
+    /* border: 1px solid blue; */
+}
+
+#companyName {
+    display: flex;  
+    align-items:center;
+    width: 50%;
+    height: 100%;
+    /* border: 1px solid blue; */
+}
+
+#companyLogo > p, #companyName > h2 {
+    margin: 0 auto;
+}
+
+#companyName > h2 {
+    font-size: 1.5rem;
+}
+
+#tagWindow {
+    width: 25%;
+    height: 100%;
+    display: flex;    
+    justify-content: space-evenly;
+    align-items:center;
+    font-size: 0.7rem;
+    /* border: 1px solid blue; */
+}
+
+.tag {
+    background-color: rgb(42,42,42);
+    border: 1px solid rgb(42,42,42);
+    border-radius: 20px;
+    padding: 6px;
+    margin: 0 auto;
+}
+
+.tag:hover {
+    background-color: rgb(84,84,84);
+}
+
+
+#bodySubheader {
+    width: 60%;
+    /* border-bottom: 1px solid white; */
+    /* border: 1px solid red; */
+}
+
+#headlineStockInfo {
+    width: 50%;
+    height: 100%;
+    display: flex;    
+    justify-content: space-evenly;
+    /* border: 1px solid blue; */
+}
+
+#headlineStockInfo > div {
+    margin-top: 15px;
+}
+
+#headlineStockInfo > div > h4, #followersWindow > p {
+    margin: 0 auto;
+}
+
+#headlineStockInfo > div > h4 {
+    font-size: 1.1rem;
+}
+#headlineStockInfo > div > p {
+    font-size: 0.6rem;
+}
+
+#websiteText {
+    width: 25%;
+    height: 100%;
+    display: flex;   
+    justify-content: center;
+    align-items:center;
+    font-size: 1.1rem;
+    /* border: 1px solid blue; */
+}
+
+#followersWindow {
+    width: 25%;
+    height: 100%;
+    display: flex;   
+    justify-content: space-evenly;
+    align-items:center;
+    /* border: 1px solid blue; */
+}
+
+#followersWindow > p {
+    font-size: 0.8rem;
+}
+
+#bodyContainer {
+    margin: 0 auto;
+    width: 75%;
+
+}
+
+fieldset {
+    width: 100%;
+    margin: 0 auto;
+    border: 1px solid white;
+    background-color: rgb(42,42,42);
+    padding: 0 20px;
+    border-radius:10px;
+    text-align: left;
+    font-size: 0.8rem;
+}
+
+legend {
+    position: relative;
+    top: -10px;
+    left: 20px;
+    height: 20px;
+    width: 160px;
+    background-color: rgb(84,84,84);
+    border: 1px solid white;
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+#stockDetails {
+    width: 100%;
+    display: inline-block;   
+    /* justify-content: space-evenly; */
+    align-items:center;
+    margin: 0 auto;
+
+}
+
+#financialDetails {
+    width: 25%;
+}
+
+table {
+    margin-bottom: 10px;
+}
+
+td {
+    padding: 0 20px;
+}
+
+#priceDetails {
+    width: 70%;
+}
+
+#summaryInfo {
+    margin-bottom: 50px;
+}
+
+
+#dataChart {
+    margin-right: 0 auto;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+

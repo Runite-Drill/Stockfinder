@@ -7,7 +7,7 @@
     <title>Stockfinder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Teko:wght@300&display=swap" rel="stylesheet">
     <!-- CAN INCLUDE BOOTSTRAP IN HERE TO STANDARDISE LAYOUT -->
     <!-- CSS only -->
     
@@ -19,6 +19,7 @@
         <div id="logoContainer">
             <!-- <p><b>LOGO</b></p> -->
             <a href="/"><img id="navLogo" src="/images/logo.png"></a>
+            <p>STOCKFINDER</p>
         </div>
 
         <div id="navBar">
@@ -30,22 +31,22 @@
                 <a href="/stockfinder/home">New Search</a> 
             </nav>
             <nav class="center">
-                <p>Tagline</p>
+                <p>UNRAVEL THE ENIGMA</p>
             </nav>
             <nav class="right">
                 <%if (currentUser) {%>
                     <p>Hello <%=currentUser.username%> |
-                    <a href="profile?id=<%=currentUser.id%>">Profile</a></p>
+                    <a href="/stockfinder/profile?id=<%=currentUser.id%>">Profile</a></p>
                 <%}%>
             </nav>
         </div> 
         <div id="authenticationControls">
             <nav class=>
                 <%if (currentUser) {%>
-                    <a href="logout">Logout</a></p>
+                    <a href="/stockfinder/logout">Logout</a></p>
                 <%} else {%>
-                    <a href="signup">Create an Account</a> |
-                    <a href="signin">Sign In</a>
+                    <a href="/stockfinder/signup">Create an Account</a> |
+                    <a href="/stockfinder/signin">Sign In</a>
                 </p>
                 <%}%>
             </nav>
