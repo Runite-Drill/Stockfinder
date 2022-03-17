@@ -1,7 +1,7 @@
 const yahooFinance = require('yahoo-finance');
 const Stock = require("../models/Stock");
 
-exports.getStockInfo = async function(symb) {
+getStockInfo = async function(symb) {
     let stockPromise = null;
 
     stockPromise = yahooFinance.quote({
@@ -33,25 +33,7 @@ exports.getStockInfo = async function(symb) {
             earningData: quotes.earnings,
             financialData: quotes.financialData,
             summaryData: quotes.summaryDetail,
-            formatValue: function(val) {
-                let valStr = '???';
-                if (val) {
-                    val = +val.toPrecision(3);
-                    let appStr = '';
-                    while (val > 1000) {
-                        val /= 1000;
-                        switch (appStr) {
-                            case '': appStr = 'K'; break;
-                            case 'K': appStr = 'M'; break;
-                            case 'M': appStr = 'B'; break;
-                            case 'B': appStr = 'T'; break;
-                            case 'T': appStr = 'Q'; break;
-                        }
-                    }
-                    valStr = val+appStr;
-                }
-                return valStr;
-            }
+            formatValue: formatValue,
         }
 
         stockPromise = stockConstructor;
@@ -64,3 +46,25 @@ exports.getStockInfo = async function(symb) {
     // console.log(x)
     return stockPromise;
 }
+
+function formatValue(val) {
+    let valStr = '???';
+    if (val) {
+        val = +val.toPrecision(3);
+        let appStr = '';
+        while (val > 1000) {
+            val /= 1000;
+            switch (appStr) {
+                case '': appStr = 'K'; break;
+                case 'K': appStr = 'M'; break;
+                case 'M': appStr = 'B'; break;
+                case 'B': appStr = 'T'; break;
+                case 'T': appStr = 'Q'; break;
+            }
+        }
+        valStr = val+appStr;
+    }
+    return valStr;
+}
+
+module.exports = {getStockInfo, formatValue};

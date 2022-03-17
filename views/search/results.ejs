@@ -26,9 +26,7 @@
                 <th></th>
             <%}%>
         </tr>
-        <!-- <%console.log(stocks) %> -->
         <% stocks.forEach(stock => { %>
-            <input name="<%=stock.core.symbol%>" value="<%=stock%>" type="hidden">
             <tr>
                 <td><%= stock.core.symbol %></td>
                 <td><a href="stock/<%= stock.core.symbol %>"><%= stock.core.name %></a></td>
@@ -44,21 +42,9 @@
                     </td>
                 <td><%= stock.formatValue(stock.core.volume) %></td>
                 <td><%= stock.core.revenuePerShare %></td>
-                <%if (locals.currentUser) {%>
-                    <%console.log('WELCOME TO THE EJS')%>
-                    <%console.log(locals.currentUser.stocksFollowed)%>
-                    <!-- <%console.log(Stock.findById("623213ac173554ef1cc74cfa"))%> -->
-                    <!-- <%locals.currentUser.stocksFollowed.forEach(folStock=>{
-                        console.log(folStock)
-                        Stock.findById(folStock).then(thisStock=>{
-                            if (thisStock.core.symbol === stock.symbol) {%>
-                                <td><a href ="#">Unfollow</a></td>
-                            <%} else {%>
-                                <td><a href ="follow?symbol=<%= stock.core.symbol %>">Follow</a></td>
-                            <%}
-                        })
-                    })%>
-                    <%console.log(stock.core.symbol)%> -->
+                <%if (locals.currentUser && locals.currentUser.stocksFollowed.includes(stock._id)) {%>
+                    <td><a href ="#">Unfollow</a></td>
+                <%} else if (locals.currentUser) {%>
                     <td><a href ="follow?symbol=<%= stock.core.symbol %>">Follow</a></td>
                 <%}%>
             </tr>
