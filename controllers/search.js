@@ -24,6 +24,7 @@ exports.search_results_get = async(req, res) => {
     let sStr = req.query.searchStr; //turn search into a object model as well to store in user history
     let stocks = [];
     let searchComplete = [false, false];
+    // res.render("search/loading")
 
     let itemsProcessed = 0;
 
@@ -38,16 +39,16 @@ exports.search_results_get = async(req, res) => {
 
     //FUNNHUB SEARCH
     finnhubClient.symbolSearch(sStr, async(error, data, response) => {
-        console.log('Search 1')
+        // console.log('Search 1')
         if (data) {
             let stocksFound = data.result;
-            console.log(typeof(stocksFound))
-            stocksFound.forEach(stock=>{console.log(stock["type"])})
+            // console.log(typeof(stocksFound))
+            // stocksFound.forEach(stock=>{console.log(stock["type"])})
             // stocksFound.forEach(stock=>{console.log(typeof(stock.type))})
             // console.log(stocksFound.filter(stock=>{stock.type!="Common Stock"}))
             stocksFound = await stocksFound.filter(stock=>{stock["type"]=="Common Stock"})
             // stocksFound.forEach(stock=>{console.log(stock.type)})
-            console.log('filtered stocks: ' + await stocksFound)
+            // console.log('filtered stocks: ' + await stocksFound)
 
             if (stocksFound.length > 0) {
                 console.log('STOCKS FOUND')
@@ -109,11 +110,7 @@ exports.search_results_get = async(req, res) => {
 }
 
 async function callback(stocks, res, sStr, searchComplete) {
-    // console.log('RENDER');
-    // console.log('Stock Render: ' + stocks.core);
-    // console.log('RENDERING')
-    // console.log(stocks);
-    console.log(searchComplete)
+    // console.log(searchComplete)
     if (searchComplete.every(el=>el===true)) {
         //Search is complete
         console.log('Saving stocks')
@@ -121,14 +118,16 @@ async function callback(stocks, res, sStr, searchComplete) {
         let itemsProcessed = 0;
         stocks.forEach(async(stock)=>{
             await Stock.updateOne({symbol: stock.core.symbol}, stock)
-            .then((response)=>{
+            .then(async(response)=>{
                 if (response.modifiedCount < 1) {
                     let newStock = new Stock(stock);
-                    newStock.save() 
-                    .then(async (savedStock)=>{
-                        stockModels.push(await savedStock);
-                        console.log('Models 1: ' + stockModels);
+                    // console.log(newStock)
+                    await newStock.save() 
+                    .then((savedStock)=>{
+                        stockModels.push(savedStock);
+                        // console.log('Models 1a: ' + stockModels);
                         console.log(`Successfully added ${stock.core.symbol} to the database.`);
+                        // itemsProcessed++
                     })
                     .catch((err)=>{
                         console.log(err); 
@@ -136,8 +135,16 @@ async function callback(stocks, res, sStr, searchComplete) {
                         console.log(`Error saving ${stock.core.symbol} to the database.`); 
                     })
                 } else {
-                    stockModels.push(this);
-                    console.log('Models 1: ' + stockModels);
+                    await Stock.findOne({symbol: stock.core.symbol})
+                    .then((stockFound)=>{
+                        // console.log(stockFound)
+                        stockModels.push(stockFound);
+                        // console.log('1xxxxxxx: ' + stockModels)
+                        // stockPromise = stockModels;
+                        // return stockModels
+                    })
+
+                    // console.log('Models 1b: ' + stockModels);
                     console.log(`Successfully updated ${stock.core.symbol} in the database.`);
                 }
             })
@@ -149,20 +156,14 @@ async function callback(stocks, res, sStr, searchComplete) {
 
             itemsProcessed++
             if(itemsProcessed === stocks.length) {
-                console.log('Models 2: ' + stockModels)
-                renderResults(stockModels, res, sStr);
+                // console.log('Models 2: ' + stockModels)
+                // renderResults(stockModels, res, sStr);
+                res.render("search/results", {searchStr:sStr,stocks:stockModels,moment})
+            } else {
+                // res.redirect("/search/loading")
             }
 
         })
         // res.render("search/results", {searchStr:sStr,stocks,moment, Stock})
     }
-}
-
-async function renderResults(stocks, res, sStr) {
-    let x = await stocks;
-    console.log(await x);
-    console.log('Models 3: ' + stocks);
-    console.log('RENDERING')
-    stocks = await x;
-    await res.render("search/results", {searchStr:sStr,stocks,moment})
 }
