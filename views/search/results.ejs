@@ -41,11 +41,23 @@
                     <%} else if (stock.core.priceChange > 0) { %>
                         <span class="green"><%= Math.floor(stock.core.priceChange*10000)/100%>%</span>
                     <%}%>
-                    </td>
+                </td>
                 <td><%= stock.formatValue(stock.core.volume) %></td>
-                <td><%= stock.formatValue(stock.core.grossProfit) %></td>
+                <td>
+                    <% if (stock.core.grossProfit < 0) { %>
+                        <span class="red"><%= stock.formatValue(stock.core.grossProfit)%></span>
+                    <%} else if (stock.core.grossProfit > 0) { %>
+                        <span class="green"><%= stock.formatValue(stock.core.grossProfit)%></span>
+                    <%}%>
+                </td>
                 <td><%= stock.core.revenuePerShare %></td>
-                <td><%= stock.core.dividendYield %>%</td>
+                <td>
+                    <% if (stock.core.dividendYield) { %>
+                        <%= stock.core.dividendYield %>%
+                    <%} else { %>
+                        n/a
+                    <%}%>
+                </td>
                 <%if (locals.currentUser && locals.currentUser.stocksFollowed.includes(stock._id)) {%>
                     <td><a href="unfollow?symbol=<%= stock.core.symbol %>">Unfollow</a></td>
                 <%} else if (locals.currentUser) {%>

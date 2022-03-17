@@ -118,7 +118,7 @@ p {
     margin: 0 auto;
 }
 
-.center > p {
+#tagline {
     font-family: 'Teko', sans-serif;
     font-size: 1.5rem;
     letter-spacing: 0.4vw;
@@ -127,4 +127,12 @@ p {
 
 .opacity20 {
     opacity: 0.2;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
 }

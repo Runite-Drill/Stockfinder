@@ -31,12 +31,12 @@
                 <a href="/stockfinder/home">New Search</a> 
             </nav>
             <nav class="center">
-                <p>UNRAVEL THE ENIGMA</p>
+                <p id="tagline">UNRAVEL THE ENIGMA</p>
             </nav>
             <nav class="right">
                 <%if (currentUser) {%>
                     <p>Hello <%=currentUser.username%> |
-                    <a href="/stockfinder/profile?id=<%=currentUser.id%>">Profile</a></p>
+                    <a href="/stockfinder/profile/<%=currentUser.username%>">Profile</a></p>
                 <%}%>
             </nav>
         </div> 

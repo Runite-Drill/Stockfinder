@@ -52,6 +52,8 @@ getStockInfo = async function(symb) {
 function formatValue(val) {
     let valStr = '???';
     if (val) {
+        val < 0 ? sign='-':sign='';
+        val = Math.abs(val);
         val = +val.toPrecision(3);
         let appStr = '';
         while (val > 1000) {
@@ -64,7 +66,7 @@ function formatValue(val) {
                 case 'T': appStr = 'Q'; break;
             }
         }
-        valStr = val+appStr;
+        valStr = sign+val+appStr;
     }
     return valStr;
 }

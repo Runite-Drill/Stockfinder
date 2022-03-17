@@ -24,7 +24,7 @@ app.use(session({
     secret: process.env.secret,
     saveUninitialized: true,
     resave: false, //don't resave if cookie is modified
-    cookie: {maxAge: 360000}, //milliseconds until cookie timeout
+    cookie: {maxAge: 3600000}, //milliseconds until cookie timeout (1hr)
 }))
 //must go before routes
 app.use(passport.initialize());
