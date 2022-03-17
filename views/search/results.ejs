@@ -43,9 +43,9 @@
                 <td><%= stock.formatValue(stock.core.volume) %></td>
                 <td><%= stock.core.revenuePerShare %></td>
                 <%if (locals.currentUser && locals.currentUser.stocksFollowed.includes(stock._id)) {%>
-                    <td><a href ="#">Unfollow</a></td>
+                    <td><a href="unfollow?symbol=<%= stock.core.symbol %>">Unfollow</a></td>
                 <%} else if (locals.currentUser) {%>
-                    <td><a href ="follow?symbol=<%= stock.core.symbol %>">Follow</a></td>
+                    <td><a href="follow?symbol=<%= stock.core.symbol %>">Follow</a></td>
                 <%}%>
             </tr>
         <%})%>

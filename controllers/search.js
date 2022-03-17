@@ -113,7 +113,7 @@ async function callback(stocks, res, sStr, searchComplete) {
     // console.log(searchComplete)
     if (searchComplete.every(el=>el===true)) {
         //Search is complete
-        console.log('Saving stocks')
+        console.log('Displaying search results...')
         let stockModels = [];
         let itemsProcessed = 0;
         stocks.forEach(async(stock)=>{
