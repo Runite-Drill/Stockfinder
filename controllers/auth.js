@@ -20,7 +20,7 @@ exports.auth_signup_post = (req,res)=> {
     user.password = hash;
 
     user.save()
-    .then(()=>{res.redirect("signin")})
+    .then(()=>{res.redirect("/stockfinder/signin")})
     .catch((err)=>{
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

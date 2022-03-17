@@ -1,35 +1,118 @@
-<div class="row2 float">
-    <script
-      type="text/javascript"
-      src="https://s3.tradingview.com/tv.js"
-    ></script>
-    <script type="text/javascript">
-        
-        <% let exSymb = ":"%>
-        <% let exchange = "NYSE"%>
-        <% if (stock.core.exchange == 'Nasdaq') {exSymb = "-"; exchange = 'Nasdaq'}%>
-        <% if (stock.core.exchange == 'NYSE American') {exSymb = ":"; exchange = 'AMEX'}%>
-        new TradingView.widget({
-            width: 550,
-            height: 475,
-            symbol: "<%=exchange%><%=exSymb%><%=stock.core.symbol%>",
-            interval: "H",
-            timezone: "Etc/UTC",
-            theme: "Dark",
-            style: "1",
-            locale: "en",
-            toolbar_bg: "#F1F3F6",
-            enable_publishing: true,
-            hide_side_toolbar: true,
-            allow_symbol_change: true,
-            details: true,
-            hideideas: true,
-            studies: [
-            "MASimple@tv-basicstudies",
-            ],
-            show_popup_button: true,
-            popup_width: "600",
-            popup_height: "325",
-        });
-    </script>
+<head><link rel="stylesheet" href="../../css/detail.css"></head>
+<div id="bodyHeader">
+    <div id="companyLogo">
+        <p class="logo">(Logo)</Logo></p>
+    </div>
+    <div id="companyName">
+        <h2><%=stock.core.exchange%> - <%=stock.core.symbol%>: <%=stock.core.name%></h2>
+    </div>
+    <div id="tagWindow">
+        <p class="tag"><%=stock.companyInfo.sector%></p> >
+        <p class="tag"><%=stock.companyInfo.industry%></p>
+    </div>
+</div>
+<div id="bodySubheader">
+    <div id="headlineStockInfo">
+        <div>
+            <h4>Stock Price: <%=stock.priceData.currencySymbol%><%=stock.core.currentPrice%></h4>
+            <p class="opacity20">(<%=moment(stock.searchDate).format("dddd, MMMM Do YYYY [at] h:mm:ss a")%>)</p>
+        </div>
+        <div><h4>Market Cap: <%=stock.formatValue(stock.core.marketCap)%></h4></div>
+    </div>
+    <div id="websiteText"><a href="<%=stock.companyInfo.website%>">Company Website</a></div>
+    <div id="followersWindow">
+        <p><%=stock.followers.length%> followers</p>
+        <%if (locals.currentUser && locals.currentUser.stocksFollowed.includes(stock._id)) {%>
+            <p><a href="/stockfinder/unfollow?symbol=<%= stock.core.symbol %>">Unfollow</a></p>
+        <%} else if (locals.currentUser) {%>
+            <p><a href="/stockfinder/follow?symbol=<%= stock.core.symbol %>">Follow</a></p>
+        <%}%>
+    </div>
+</div>
+<br>
+<div id="bodyContainer">
+    <fieldset id="companyDesc">
+        <legend>Company Description</legend>
+        <p><%=stock.companyInfo.longBusinessSummary%></p>
+    </fieldset>
+    <br>
+    
+    <br>
+    <div id="stockDetails">
+        <fieldset id="financialDetails" class="left">
+            <legend>Company Fundamentals</legend>
+            <table>
+                <%for (key in stock.financialData) { %>
+                    <tr>
+                        <td><%=key%></td>
+                        <%if(typeof stock.financialData[key] === "number") {%>
+                            <td><%=stock.formatValue(stock.financialData[key])%></td>
+                        <%} else {%>
+                            <td><%=stock.financialData[key]%></td>
+                        <%}%>
+                    </tr>
+                <%}%>
+            </table>
+        </fieldset>
+        <div id="priceDetails" class="right">
+            <fieldset id="summaryInfo">
+                <legend>Financial Summary</legend>
+                <table>
+                        <tr>
+                            <%for (key in stock.core) { 
+                                if (!['symbol','name','type','exchange'].includes(key)) {%>
+                                <td><%=key%></td>
+                                <%}
+                            }%>
+                        </tr>
+                        <tr>
+                            <%for (key in stock.core) { 
+                                if (!['symbol','name','type','exchange'].includes(key)) {%>
+                                    <%if(typeof stock.core[key] === "number") {%>
+                                        <td><%=stock.formatValue(stock.core[key])%></td>
+                                    <%} else {%>
+                                        <td><%=stock.core[key]%></td>
+                                    <%}%>
+                                <%}
+                            }%>
+                        </tr>
+                </table>
+            </fieldset>
+
+            <div id="dataChart">
+                <script
+                type="text/javascript"
+                src="https://s3.tradingview.com/tv.js"
+                ></script>
+                <script type="text/javascript">
+                    <% let exSymb = ":"%>
+                    <% let exchange = "NYSE"%>
+                    <% if (stock.core.exchange == 'NasdaqGS') {exSymb = ":"; exchange = 'Nasdaq'}%>
+                    <% if (stock.core.exchange == 'NYSE American') {exSymb = ":"; exchange = 'AMEX'}%>
+                    new TradingView.widget({
+                        width: 550,
+                        height: 475,
+                        symbol: "<%=exchange%><%=exSymb%><%=stock.core.symbol%>",
+                        interval: "H",
+                        timezone: "Etc/UTC",
+                        theme: "Dark",
+                        style: "1",
+                        locale: "en",
+                        toolbar_bg: "#F1F3F6",
+                        enable_publishing: true,
+                        hide_side_toolbar: true,
+                        allow_symbol_change: true,
+                        details: true,
+                        hideideas: true,
+                        studies: [
+                        "MASimple@tv-basicstudies",
+                        ],
+                        show_popup_button: true,
+                        popup_width: "600",
+                        popup_height: "325",
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
 </div>

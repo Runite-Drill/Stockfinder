@@ -21,7 +21,9 @@ getStockInfo = async function(symb) {
             priceChange: -(quotes.summaryDetail.previousClose - quotes.financialData.currentPrice)/quotes.summaryDetail.previousClose,
             marketCap: quotes.summaryDetail.marketCap,
             volume: quotes.summaryDetail.volume,
+            grossProfit: quotes.financialData.grossProfits,
             revenuePerShare: quotes.financialData.revenuePerShare,
+            dividendYield: quotes.summaryDetail.fiveYearAvgDividendYield,
             
         }
         let stockConstructor = {

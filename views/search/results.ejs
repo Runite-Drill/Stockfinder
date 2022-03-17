@@ -21,7 +21,9 @@
             <th>Price</th>
             <th>Change</th>
             <th>Yesterday Vol</th>
+            <th>Profit</th>
             <th>RPS</th>
+            <th>5-yr Div %</th>
             <%if (locals.currentUser) {%>
                 <th></th>
             <%}%>
@@ -41,7 +43,9 @@
                     <%}%>
                     </td>
                 <td><%= stock.formatValue(stock.core.volume) %></td>
+                <td><%= stock.formatValue(stock.core.grossProfit) %></td>
                 <td><%= stock.core.revenuePerShare %></td>
+                <td><%= stock.core.dividendYield %>%</td>
                 <%if (locals.currentUser && locals.currentUser.stocksFollowed.includes(stock._id)) {%>
                     <td><a href="unfollow?symbol=<%= stock.core.symbol %>">Unfollow</a></td>
                 <%} else if (locals.currentUser) {%>
