@@ -1,0 +1,30 @@
+#body {
+    width: 75%;
+    margin: 0 auto;
+    border: 1px solid red;
+}
+
+#signupForm {
+    /* height: 40vh; */
+    width: 30%;
+    min-width: 300px;
+    margin: 0 auto;
+    margin-top: 10vh;
+    /* margin-bottom: 20vh; */
+    position: relative;
+    justify-content: center;
+    border: 1px solid red;
+}
+
+#signupContainer {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid red;
+}
+
+.container {
+    padding-left:0;
+    border: 1px solid red;
+}

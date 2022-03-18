@@ -1,0 +1,31 @@
+<head><link rel="stylesheet" href="/../css/signup.css"></head>
+<div class="container" id="body">
+    <h1>STOCKFINDER</h1>
+    <div id="signupForm">
+        <h2>Edit Account</h2>
+        <br>
+        <form method="post" action="../<%=user.username%>/edit">
+            <div class="container">
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input class="form-control" type="text" name="username" value="<%=user.username%>">
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input class="form-control" type="email" name="emailAddress" value="<%=user.emailAddress%>">
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label class="form-label">Clear Search History</label>
+                    <input class="form-check-input" type="checkbox" name="clearSearchHistory" value="true"></input>
+                </div>
+                <br>
+                <div id="signupContainer">
+                    <a href="../<%=user.username%>">Cancel</a>
+                    <button class="btn btn-primary" type="submit">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
