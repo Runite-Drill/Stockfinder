@@ -14,7 +14,7 @@
 
 > **NOTE: THIS IS NOT A STOCK TRADING APP.** There is no intention to allow the buying or selling of equities on this app now or in the future. This app exist purely to allow users to discover lesser-known stocks and new areas of the stock market.
 
-To use the app, please see the Heroku link below.
+To use the app, please see the Heroku link: https://stockfinderapp.herokuapp.com/
 
 ## Features
 **Stockfinder** contains a variety of features to assist you in your journey through the stock market. To access all features and get the best searching experience, consider creating a Stockfinder account.
@@ -44,9 +44,9 @@ Upon creating a Stockfinder account the user has access to a couple of additiona
 
 This app was built using **HTML**, **CSS**, **JavaScript**, **Node.js**, **Express**, **Bootstrap** and **MongoDB**. Additionally, **various third-party API's** contributed to the functioning of this app, including: Alpha Vantage, Finnhub and Yahoo Finance.
 
-Warning: due to time constraints there are some critical issues and missing features (for example, the search functionality is extremely grumpy). These will be fixed over time, so please do check back later if need be.
+Warning: due to time constraints there are some critical issues, some incomplete localisation and missing features (for example, the search functionality is extremely grumpy). These will be fixed over time, so please do check back later if need be.
 
-> **Heroku:** tba
+> **Heroku:** https://stockfinderapp.herokuapp.com/
 
 > **Git Repo:** https://github.com/Runite-Drill/Stockfinder.git
 
@@ -66,3 +66,4 @@ There are a large number of possibilities to further the development of this app
 - Set notifications and alerts so you never miss an opportunity.
 - Provide links to relevant news sources and trading platforms.
 - Google/Facebook/social single sign-on.
+- UX and UI improvements, such as user feedback messages when trying to log in/out or an error occurs etc.
