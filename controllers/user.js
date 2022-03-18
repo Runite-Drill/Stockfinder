@@ -51,6 +51,20 @@ exports.user_edit_post = (req,res) => {
 
 // HTTP GET - delete user profile
 exports.user_delete_get = (req,res) => {
+    User.findOne({username: req.params.username})
+    .then((user)=> {
+        user.stocksFollowed.forEach(stockId=>{
+            Stock.findById(stockId)
+            .then(stock=>{
+                let index = stock.followers.findIndex(val=>{return JSON.stringify(val)==JSON.stringify(user._id)});
+                stock.followers.splice(index, 1);
+                stock.save()
+                .then(()=>{user.delete()})
+                .catch((err)=>{console.log(err); res.send("Error deleting user from stock data.")})
+            })
+            .catch((err)=>{console.log(err); res.send("Error finding followed stock.")})
+        })
+    })
     User.findOneAndDelete({username: req.params.username})
     .then(()=> {
         res.redirect("/stockfinder/signup");
