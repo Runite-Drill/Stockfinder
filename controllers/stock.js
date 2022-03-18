@@ -58,11 +58,11 @@ exports.stock_unfollow_get = (req,res) => {
         if (req.user) {
             console.log(`Unfollowing ${req.query.symbol}...`)
             User.findById(req.user.id, ((err, user)=>{
-                let index = user.stocksFollowed.findIndex(val=>val===stock._id)
+                let index = user.stocksFollowed.findIndex(val=>{return JSON.stringify(val)==JSON.stringify(stock._id)})
                 user.stocksFollowed.splice(index, 1);
                 user.save()
                 .then(user=>{
-                    let index = stock.followers.findIndex(val=>val===user.id)
+                    let index = stock.followers.findIndex(val=>{return JSON.stringify(val)==JSON.stringify(user.id)})
                     stock.followers.splice(index, 1);
                     stock.save()
                     .then(()=>{res.redirect("back")})
